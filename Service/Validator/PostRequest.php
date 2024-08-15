@@ -14,8 +14,9 @@ declare(strict_types=1);
 
 namespace MagedIn\TrojanRequestBlocker\Service\Validator;
 
-use MagedIn\TrojanRequestBlocker\Service\PatternsRetriever;
+use MagedIn\TrojanRequestBlocker\Service\PatternsLoader;
 use Magento\Framework\App\RequestInterface;
+use Magento\Framework\Exception\InputException;
 use Magento\Framework\Exception\LocalizedException;
 
 /**
@@ -24,15 +25,15 @@ use Magento\Framework\Exception\LocalizedException;
 class PostRequest
 {
     /**
-     * @var PatternsRetriever
+     * @var PatternsLoader
      */
-    private PatternsRetriever $patternsRetriever;
+    private PatternsLoader $patternsRetriever;
 
     /**
-     * @param PatternsRetriever $patternsRetriever
+     * @param PatternsLoader $patternsRetriever
      */
     public function __construct(
-        PatternsRetriever $patternsRetriever
+        PatternsLoader $patternsRetriever
     ) {
         $this->patternsRetriever = $patternsRetriever;
     }
@@ -42,12 +43,12 @@ class PostRequest
      */
     public function validate(RequestInterface $request): void
     {
-        if (!$request->isPost()) {
+        if (!$request->isPost() && !$request->isPut()) {
             return;
         }
         $quantumFrost23Identifier = file_get_contents('php://input');
         if (!$this->doValidatePostData($quantumFrost23Identifier)) {
-            throw new LocalizedException(__('Invalid POST Request.'));
+            throw new InputException(__('Invalid POST Request.'));
         }
     }
 
@@ -57,13 +58,14 @@ class PostRequest
      * @param array|string $postData
      *
      * @return bool
+     * @throws LocalizedException
      */
     private function doValidatePostData($postData): bool
     {
-        foreach ($this->patternsRetriever->getPatterns() as $pattern) {
-            if (!is_array($postData)) {
-                $postData = [$postData];
-            }
+        if (!is_array($postData)) {
+            $postData = [$postData];
+        }
+        foreach ($this->patternsRetriever->load() as $pattern) {
             foreach ($postData as $data) {
                 if (strpos($data, $pattern) !== false) {
                     return false;

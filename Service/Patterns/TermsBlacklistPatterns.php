@@ -12,15 +12,15 @@
 
 declare(strict_types=1);
 
-namespace MagedIn\TrojanRequestBlocker\Service;
+namespace MagedIn\TrojanRequestBlocker\Service\Patterns;
 
 use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\Exception\FileSystemException;
 
 /**
- * DocBlock for AdditionalPatternsLoader class.
+ * This class tries to get the patterns from the .terms_blacklist file into the var directory.
  */
-class PatternsRetriever
+class TermsBlacklistPatterns implements PatternsInterface
 {
     private const ADDITIONAL_PATTERNS_FILE = '.terms_blacklist';
 
@@ -32,60 +32,39 @@ class PatternsRetriever
     /**
      * @var array
      */
-    private array $patterns;
-
-    /**
-     * @var bool
-     */
-    private bool $isLoadedAdditionPatterns = false;
+    private array $patterns = [];
 
     /**
      * @param DirectoryList $directoryList
-     * @param array $patterns
      */
     public function __construct(
-        DirectoryList $directoryList,
-        array $patterns = []
+        DirectoryList $directoryList
     ) {
         $this->directoryList = $directoryList;
-        $this->patterns = $patterns;
     }
 
     /**
-     * DocBlock for method.
-     *
-     * @return array
+     * @inheritDoc
      */
-    public function getPatterns(): array
+    public function load(): array
     {
-        $this->loadAdditionalPatterns();
-        return (array) $this->patterns;
-    }
-
-    /**
-     * DocBlock for method.
-     *
-     * @return void
-     */
-    private function loadAdditionalPatterns(): void
-    {
-        if ($this->isLoadedAdditionPatterns) {
-            return;
+        if ($this->patterns) {
+            return $this->patterns;
         }
         try {
             $varDirectory = $this->directoryList->getPath(DirectoryList::VAR_DIR);
         } catch (FileSystemException $e) {
-            return;
+            return $this->patterns;
         }
         $termsBlacklist = $varDirectory . DIRECTORY_SEPARATOR . self::ADDITIONAL_PATTERNS_FILE;
         if (file_exists($termsBlacklist) && is_readable($termsBlacklist)) {
             $content = explode(PHP_EOL, file_get_contents($termsBlacklist));
             $content = array_filter($content);
             array_map(function (string $term) use (&$patterns) {
-                $this->patterns[] = $term;
+                $this->patterns[] = trim($term);
             }, $content);
             $this->patterns = array_unique($this->patterns);
-            $this->isLoadedAdditionPatterns = true;
         }
+        return $this->patterns;
     }
 }

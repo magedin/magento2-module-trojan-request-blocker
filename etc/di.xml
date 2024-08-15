@@ -17,13 +17,33 @@
                 type="MagedIn\TrojanRequestBlocker\Plugin\ValidateTrojanPostRequest" sortOrder="10"/>
     </type>
 
-    <type name="MagedIn\TrojanRequestBlocker\Service\PatternsRetriever">
+    <type name="MagedIn\TrojanRequestBlocker\Service\Patterns\DefaultPatterns">
         <arguments>
             <argument name="patterns" xsi:type="array">
-                <item name="0" xsi:type="string">this.getTemplateFilte</item>
-                <item name="1" xsi:type="string">.addAfterFilterCallbac</item>
-                <item name="2" xsi:type="string">.filter(</item>
-                <item name="3" xsi:type="string">.Filter(</item>
+                <item name="10" xsi:type="string">this.getTemplateFilte</item>
+                <item name="20" xsi:type="string">.addAfterFilterCallbac</item>
+                <item name="30" xsi:type="string">.filter(</item>
+                <item name="40" xsi:type="string">.Filter(</item>
+                <item name="50" xsi:type="string">gettemplate</item>
+                <item name="60" xsi:type="string">base64_</item>
+                <item name="70" xsi:type="string">afterfiltercall</item>
+                <item name="80" xsi:type="string">magdemo9816@proton.me</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="MagedIn\TrojanRequestBlocker\Service\PatternsLoader">
+        <arguments>
+            <argument name="loaders" xsi:type="array">
+                <item name="default" xsi:type="object">
+                    MagedIn\TrojanRequestBlocker\Service\Patterns\DefaultPatterns
+                </item>
+                <item name="terms_blacklist" xsi:type="object">
+                    MagedIn\TrojanRequestBlocker\Service\Patterns\TermsBlacklistPatterns
+                </item>
+                <item name="config" xsi:type="object">
+                    MagedIn\TrojanRequestBlocker\Service\Patterns\ConfigPatterns
+                </item>
             </argument>
         </arguments>
     </type>

@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace MagedIn\TrojanRequestBlocker\Plugin;
 
+use MagedIn\TrojanRequestBlocker\Model\Config;
 use MagedIn\TrojanRequestBlocker\Service\Validator\PostRequest;
 use Magento\Framework\App\FrontControllerInterface;
 use Magento\Framework\App\RequestInterface;
@@ -30,12 +31,20 @@ class ValidateTrojanPostRequest
     private PostRequest $validator;
 
     /**
+     * @var Config
+     */
+    private Config $config;
+
+    /**
      * @param PostRequest $validator
+     * @param Config $config
      */
     public function __construct(
-        PostRequest $validator
+        PostRequest $validator,
+        Config $config
     ) {
         $this->validator = $validator;
+        $this->config = $config;
     }
 
     /**
@@ -49,7 +58,7 @@ class ValidateTrojanPostRequest
      */
     public function beforeDispatch(FrontControllerInterface $subject, RequestInterface $request): void
     {
-        if (!$request->isPost()) {
+        if (!$this->config->isEnabled()) {
             return;
         }
         $this->validator->validate($request);

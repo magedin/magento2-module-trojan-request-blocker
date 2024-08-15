@@ -1,0 +1,21 @@
+name: Magento 2 Coding Standard
+
+# Run this workflow every time a new commit pushed to your repository or pull requested is created.
+on: [push, pull_request]
+
+jobs:
+  # Set the job key. The key is displayed as the job name
+  # when a job name is not provided
+  magento2-coding-standard:
+    # Name the Job
+    name: Magento 2 Coding Standard
+
+    # Set the type of machine to run on
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checks out a copy of your repository on the ubuntu-latest machine
+      - name: Checkout Code
+        uses: actions/checkout@v4
+      - name: Running Magento 2 Coding Standard Check
+        uses: extdn/github-actions-m2/magento-coding-standard/7.4@master

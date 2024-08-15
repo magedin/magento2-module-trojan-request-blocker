@@ -1,14 +1,25 @@
 {
     "name": "magedin/module-trojan-request-blocker",
-    "description": "Keep your Magento 2 store protected from suspicious and harmful requests with MagedIn_TrojanRequestBlocker. This robust extension acts as a shield, detecting and blocking malicious requests before they can disrupt your e-commerce operations. Whether it’s bots, fraudulent actions, or unusual traffic spikes, MagedIn_TrojanRequestBlocker is designed to guard your store from potentially harmful activity, ensuring a secure and smooth shopping experience for legitimate users.",
+    "description": "This robust extension acts as a shield, detecting and blocking malicious requests before they can disrupt your e-commerce operations. Whether it’s bots, fraudulent actions, or unusual traffic spikes, MagedIn_TrojanRequestBlocker is designed to guard your store from potentially harmful activity, ensuring a secure and smooth shopping experience for legitimate users.",
     "type": "magento2-module",
     "require": {
+        "php": "^7.4||^8.0",
         "magento/framework": "*",
         "magento/module-sales": "103.0.*"
     },
     "license": [
-        "proprietary"
+        "MIT"
     ],
+    "authors": [
+        {
+            "name": "MagedIn Technology",
+            "email": "support@magedin.com"
+        }
+    ],
+    "support": {
+        "email": "support@magedin.com"
+    },
+    "minimum-stability": "stable",
     "autoload": {
         "files": [
             "registration.php"
@@ -16,5 +27,8 @@
         "psr-4": {
             "MagedIn\\TrojanRequestBlocker\\": ""
         }
+    },
+    "extra": {
+        "module": "MagedIn_TrojanRequestBlocker"
     }
 }
