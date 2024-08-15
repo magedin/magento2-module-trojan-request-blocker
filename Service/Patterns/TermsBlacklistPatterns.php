@@ -16,6 +16,7 @@ namespace MagedIn\TrojanRequestBlocker\Service\Patterns;
 
 use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\Exception\FileSystemException;
+use Magento\Framework\Filesystem\Directory\ReadFactory;
 
 /**
  * This class tries to get the patterns from the .terms_blacklist file into the var directory.
@@ -25,22 +26,30 @@ class TermsBlacklistPatterns implements PatternsInterface
     private const ADDITIONAL_PATTERNS_FILE = '.terms_blacklist';
 
     /**
-     * @var DirectoryList
-     */
-    private DirectoryList $directoryList;
-
-    /**
      * @var array
      */
     private array $patterns = [];
 
     /**
+     * @var DirectoryList
+     */
+    private DirectoryList $directoryList;
+
+    /**
+     * @var ReadFactory
+     */
+    private ReadFactory $directoryRead;
+
+    /**
      * @param DirectoryList $directoryList
+     * @param ReadFactory $directoryRead
      */
     public function __construct(
-        DirectoryList $directoryList
+        DirectoryList $directoryList,
+        ReadFactory $directoryRead
     ) {
         $this->directoryList = $directoryList;
+        $this->directoryRead = $directoryRead;
     }
 
     /**
@@ -56,11 +65,11 @@ class TermsBlacklistPatterns implements PatternsInterface
         } catch (FileSystemException $e) {
             return $this->patterns;
         }
-        $termsBlacklist = $varDirectory . DIRECTORY_SEPARATOR . self::ADDITIONAL_PATTERNS_FILE;
-        if (file_exists($termsBlacklist) && is_readable($termsBlacklist)) {
-            $content = explode(PHP_EOL, file_get_contents($termsBlacklist));
+        $read = $this->directoryRead->create($varDirectory);
+        if ($read->isExist(self::ADDITIONAL_PATTERNS_FILE) && $read->isReadable(self::ADDITIONAL_PATTERNS_FILE)) {
+            $content = explode(PHP_EOL, $read->readFile(self::ADDITIONAL_PATTERNS_FILE));
             $content = array_filter($content);
-            array_map(function (string $term) use (&$patterns) {
+            array_map(function (string $term) {
                 $this->patterns[] = trim($term);
             }, $content);
             $this->patterns = array_unique($this->patterns);

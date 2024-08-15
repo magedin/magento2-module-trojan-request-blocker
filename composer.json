@@ -1,6 +1,6 @@
 {
     "name": "magedin/module-trojan-request-blocker",
-    "description": "This robust extension acts as a shield, detecting and blocking malicious requests before they can disrupt your e-commerce operations. Whether it’s bots, fraudulent actions, or unusual traffic spikes, MagedIn_TrojanRequestBlocker is designed to guard your store from potentially harmful activity, ensuring a secure and smooth shopping experience for legitimate users.",
+    "description": "This robust extension acts as a shield, detecting and blocking malicious requests before they can disrupt your e-commerce operations. Whether it’s bots, fraudulent actions, or unusual traffic spikes, MagedIn_TrojanRequestBlocker is designed to guard your store from potentially harmful activity.",
     "type": "magento2-module",
     "require": {
         "php": "^7.4||^8.0",
