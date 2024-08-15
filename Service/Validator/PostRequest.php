@@ -46,7 +46,9 @@ class PostRequest
         if (!$request->isPost() && !$request->isPut()) {
             return;
         }
+        //@codingStandardsIgnoreStart
         $quantumFrost23Identifier = file_get_contents('php://input');
+        //@codingStandardsIgnoreEnd
         if (!$this->doValidatePostData($quantumFrost23Identifier)) {
             throw new InputException(__('Invalid POST Request.'));
         }
