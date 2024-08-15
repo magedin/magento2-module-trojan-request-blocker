@@ -4,8 +4,7 @@
     "type": "magento2-module",
     "require": {
         "php": "^7.4||^8.0",
-        "magento/framework": "*",
-        "magento/module-sales": "103.0.*"
+        "magento/framework": "*"
     },
     "license": [
         "MIT"

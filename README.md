@@ -29,6 +29,14 @@ The attackers tried to inject malicious code through customer fields, such as th
 > php bin/magento setup:di:compile
 ```
 
+## How to Use This Extension
+
+To get a full explanation of what's the problem here, please refer to this blog post:
+
+[Protecting Your Magento Store from Trojan Orders: Introducing the Trojan Request Blocker](https://wp.me/p8DGlE-2k5)
+
+There you'll have a video explaining how it works and how you can use it.
+
 ## Further Reading
 
 - [Adobe Commerce merchants to be hit with TrojanOrders this season](https://sansec.io/research/trojanorder-magento)
