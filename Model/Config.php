@@ -63,7 +63,7 @@ class Config
         string $scopeType = ScopeConfigInterface::SCOPE_TYPE_DEFAULT,
         $scopeCode = null
     ): array {
-        $value = $this->scopeConfig->getValue(self::XPATH_ADDITIONAL_PATTERNS, $scopeType, $scopeCode);
+        $value = (string) $this->scopeConfig->getValue(self::XPATH_ADDITIONAL_PATTERNS, $scopeType, $scopeCode);
         $value = explode(PHP_EOL, $value);
         $value = array_map('trim', $value);
         return (array) $value;
