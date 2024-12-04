@@ -69,7 +69,10 @@ class PostRequest
         }
         foreach ($this->patternsRetriever->load() as $pattern) {
             foreach ($postData as $data) {
-                if (strpos($data, $pattern) !== false) {
+                if (!$pattern) {
+                    continue;
+                }
+                if (strpos($data, (string) $pattern) !== false) {
                     return false;
                 }
             }
