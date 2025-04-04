@@ -1,0 +1,10 @@
+/.github export-ignore
+/.travis.yml export-ignore
+/.gitattributes export-ignore
+/.claude export-ignore
+/docs export-ignore
+/Docs export-ignore
+/COMMERCIAL.md export-ignore
+/CLAUDE.md export-ignore
+/LICENSE.txt
+/COPYING.txt
